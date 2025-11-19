@@ -207,12 +207,6 @@ export default function HomePage() {
 
       <footer className="text-center py-6 text-xs text-cyan-100 bg-[#0f172a]/20">
         <p className="mb-2">Made with ❤️ for the KLETU CodeClub</p>
-        <div className="flex justify-center gap-4 text-cyan-400 flex-wrap">
-          <a href="https://github.com/RJ1412" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://x.com/RJ__1412" target="_blank" rel="noopener noreferrer">Twitter</a>
-          <a href="https://www.linkedin.com/in/rj1412/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a href="https://www.instagram.com/tranquil.paradox/" target="_blank" rel="noopener noreferrer">Instagram</a>
-        </div>
       </footer>
 
       <style jsx="true">{`
