@@ -5,6 +5,7 @@ import { useAuthStore } from "./store/useAuthStore";
 import HomePage from "./pages/HomePage";
 import DashboardPage from "./pages/DashboardPage";
 import { Toaster } from "react-hot-toast";
+import LandingPage from "./pages/LandingPage";
 
 export default function App() {
   const { authUser, loading, checkAuth } = useAuthStore();
@@ -25,7 +26,7 @@ export default function App() {
     <>
       <Toaster position="top-right" />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<LandingPage />} />
         <Route
           path="/dashboard"
           element={
@@ -34,6 +35,7 @@ export default function App() {
               : <Navigate to="/" replace />
           }
         />
+        <Route path="/auth" element={<HomePage />} />
       </Routes>
     </>
   );
