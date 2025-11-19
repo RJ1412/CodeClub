@@ -1,0 +1,55 @@
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../src/generated/prisma"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+model User {
+  id               String       @id @default(uuid())
+  srn              String       @unique
+  email            String       @unique
+  password         String
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  codeforcesHandle String?      @unique
+  score            Int          @default(0)
+  submissions      Submission[]
+}
+
+model Question {
+  id           String       @id @default(uuid())
+  title        String
+  codeforcesId Int
+  link         String
+  date         DateTime     @unique
+  createdAt    DateTime     @default(now())
+  rating       Int          @default(0)
+  editorialUrl String?
+  submissions  Submission[]
+}
+
+model Submission {
+  id          String           @id @default(uuid())
+  userId      String
+  questionId  String
+  status      SubmissionStatus
+  score       Int              @default(0)
+  submittedAt DateTime         @default(now())
+  question    Question         @relation(fields: [questionId], references: [id])
+  user        User             @relation(fields: [userId], references: [id])
+
+  @@unique([userId, questionId])
+}
+
+enum SubmissionStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
