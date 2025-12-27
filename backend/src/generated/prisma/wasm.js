@@ -125,6 +125,7 @@ exports.Prisma.UserScalarFieldEnum = {
   srn: 'srn',
   email: 'email',
   password: 'password',
+  role: 'role',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   resetToken: 'resetToken',
@@ -153,9 +154,43 @@ exports.Prisma.SubmissionScalarFieldEnum = {
   submittedAt: 'submittedAt'
 };
 
+exports.Prisma.AdminActionScalarFieldEnum = {
+  id: 'id',
+  adminId: 'adminId',
+  action: 'action',
+  targetType: 'targetType',
+  targetId: 'targetId',
+  before: 'before',
+  after: 'after',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DiscussionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  questionId: 'questionId',
+  content: 'content',
+  parentId: 'parentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.QuestionRatingScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  questionId: 'questionId',
+  rating: 'rating',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -167,6 +202,17 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+exports.Role = exports.$Enums.Role = {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
+};
+
 exports.SubmissionStatus = exports.$Enums.SubmissionStatus = {
   PENDING: 'PENDING',
   ACCEPTED: 'ACCEPTED',
@@ -176,7 +222,10 @@ exports.SubmissionStatus = exports.$Enums.SubmissionStatus = {
 exports.Prisma.ModelName = {
   User: 'User',
   Question: 'Question',
-  Submission: 'Submission'
+  Submission: 'Submission',
+  AdminAction: 'AdminAction',
+  Discussion: 'Discussion',
+  QuestionRating: 'QuestionRating'
 };
 
 /**

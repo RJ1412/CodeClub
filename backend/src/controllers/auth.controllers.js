@@ -106,7 +106,6 @@ export const verifyOtp = async (req, res) => {
     tempUsers.delete(normalizedEmail);
 
     const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: "7d" });
-
     res.cookie("jwt", token, cookieOptions);
     console.log("[verifyOtp] Set-Cookie attempted");
 
@@ -159,7 +158,8 @@ export const login = async (req, res) => {
         srn: user.srn,
         email: user.email,
         codeforcesHandle: user.codeforcesHandle ?? null,
-        score: user.score ?? 0
+        score: user.score ?? 0,
+        role : user.role,
       }
     });
   } catch (err) {

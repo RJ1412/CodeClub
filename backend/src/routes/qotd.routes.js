@@ -1,0 +1,28 @@
+import express from "express";
+
+import {
+  linkCodeforcesHandle,
+  getTodayQuestion,
+  UpdatePoints,
+  getLeaderboard,
+  getAllQuestions,
+  getRecentSubmissionsFromCF,
+  getHandle,
+  generateGlobalQOTD,
+  getEditorialIfAllowed,
+} from "../controllers/qotd.controllers.js";
+import { authMiddleware } from "../middleware/auth.middleware.js";
+import { submissionLimiter } from "../middleware/rateLimiter.js";
+
+const qotdRoutes = express.Router();
+
+qotdRoutes.post("/link-cf", authMiddleware, linkCodeforcesHandle);
+qotdRoutes.get("/get-questions", generateGlobalQOTD);
+qotdRoutes.get("/today", authMiddleware, getTodayQuestion);
+qotdRoutes.post("/update-status", submissionLimiter, UpdatePoints);
+qotdRoutes.get("/leaderboard", authMiddleware, getLeaderboard);
+qotdRoutes.get("/all", authMiddleware, getAllQuestions);
+qotdRoutes.get("/submission", authMiddleware, getRecentSubmissionsFromCF);
+qotdRoutes.get("/cf-handle", authMiddleware, getHandle);
+qotdRoutes.post("/editorial", getEditorialIfAllowed);
+export default qotdRoutes;

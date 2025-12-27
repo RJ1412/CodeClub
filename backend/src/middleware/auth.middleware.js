@@ -46,7 +46,8 @@ export const authMiddleware = async (req, res, next) => {
         srn: true,
         email: true,
         codeforcesHandle: true,
-        score: true
+        score: true,
+        role : true
       }
     });
 
