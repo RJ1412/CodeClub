@@ -9,7 +9,7 @@ export const initRedis = async () => {
             socket: {
                 reconnectStrategy: (retries) => {
                     if (retries > 2) {
-                        // console.warn("⚠️ Redis connection retries exhausted. Disabling cache.");
+                        // console.warn("Redis connection retries exhausted. Disabling cache.");
                         return false; // Stop retrying
                     }
                     return Math.min(retries * 50, 500);
@@ -20,13 +20,13 @@ export const initRedis = async () => {
         client.on('error', (err) => {
             if (err.code === 'ECONNREFUSED') {
                 if (isConnected) {
-                    console.warn('⚠️ Redis connection lost.');
+                    console.warn('Redis connection lost.');
                 }
                 isConnected = false;
                 // Suppress repeated ECONNREFUSED logs
                 return;
             }
-            console.warn('⚠️ Redis Client Error:', err.message);
+            console.warn('Redis Client Error:', err.message);
             isConnected = false;
         });
 
@@ -35,13 +35,13 @@ export const initRedis = async () => {
         });
 
         client.on('connect', () => {
-            console.log('✅ Connected to Redis');
+            console.log('Connected to Redis');
             isConnected = true;
         });
 
         await client.connect();
     } catch (err) {
-        // console.warn('⚠️ Redis connection failed. Running without cache.');
+        // console.warn('Redis connection failed. Running without cache.');
         isConnected = false;
     }
     return client;

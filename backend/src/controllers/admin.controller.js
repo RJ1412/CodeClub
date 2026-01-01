@@ -34,7 +34,7 @@ const logAdminAction = async ({ adminId, action, targetType, targetId, before, a
  * Create a question (not necessarily QOTD)
  * Admin can add questions with any date (usually one per day).
  */
-// 📤 Export Analytics to CSV
+// Export Analytics to CSV
 export const exportAnalytics = async (req, res) => {
   try {
     const users = await db.user.findMany({
@@ -61,7 +61,7 @@ export const exportAnalytics = async (req, res) => {
     return res.send(csvContent);
 
   } catch (error) {
-    console.error("❌ Error exporting analytics:", error);
+    console.error("Error exporting analytics:", error);
     return res.status(500).json({ error: "Failed to export analytics" });
   }
 };

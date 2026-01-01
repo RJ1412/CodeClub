@@ -1,6 +1,6 @@
 import { db } from "../libs/db.js";
 
-// 📝 Get all discussions for a question (Threaded View)
+// Get all discussions for a question (Threaded View)
 export const getDiscussions = async (req, res) => {
     try {
         const { questionId } = req.params;
@@ -24,12 +24,12 @@ export const getDiscussions = async (req, res) => {
 
         return res.status(200).json({ discussions });
     } catch (error) {
-        console.error("❌ Error fetching discussions:", error);
+        console.error("Error fetching discussions:", error);
         return res.status(500).json({ error: "Failed to fetch discussions" });
     }
 };
 
-// 💬 Post a new comment or reply
+// Post a new comment or reply
 export const postComment = async (req, res) => {
     try {
         const { questionId, content, parentId } = req.body;
@@ -59,12 +59,12 @@ export const postComment = async (req, res) => {
 
         return res.status(201).json({ success: true, comment });
     } catch (error) {
-        console.error("❌ Error posting comment:", error);
+        console.error("Error posting comment:", error);
         return res.status(500).json({ error: "Failed to post comment" });
     }
 };
 
-// ⭐ Rate a question (1-5 stars)
+// Rate a question (1-5 stars)
 export const rateQuestion = async (req, res) => {
     try {
         const { questionId, rating } = req.body;
@@ -91,12 +91,12 @@ export const rateQuestion = async (req, res) => {
 
         return res.status(200).json({ success: true, rating: newRating });
     } catch (error) {
-        console.error("❌ Error rating question:", error);
+        console.error("Error rating question:", error);
         return res.status(500).json({ error: "Failed to rate question" });
     }
 };
 
-// 📊 Get average rating for a question
+// Get average rating for a question
 export const getQuestionRating = async (req, res) => {
     try {
         const { questionId } = req.params;
@@ -127,7 +127,7 @@ export const getQuestionRating = async (req, res) => {
             userRating
         });
     } catch (error) {
-        console.error("❌ Error fetching rating:", error);
+        console.error("Error fetching rating:", error);
         return res.status(500).json({ error: "Failed to fetch rating" });
     }
 };

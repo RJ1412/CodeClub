@@ -19,7 +19,7 @@ export const generateEditorialFromGemini = async (
 ) => {
     try {
         if (!process.env.GEMINI_API_KEY) {
-            console.warn("⚠️ GEMINI_API_KEY not set. Skipping editorial generation.");
+            console.warn("GEMINI_API_KEY not set. Skipping editorial generation.");
             return null;
         }
 
@@ -68,14 +68,14 @@ Do not use placeholders. Generate the actual content based on the problem statem
         const editorial = response.text();
 
         if (!editorial || editorial.trim().length === 0) {
-            console.warn("⚠️ Gemini returned empty editorial");
+            console.warn("Gemini returned empty editorial");
             return null;
         }
 
-        console.log(`✅ Generated editorial for: ${problemTitle}`);
+        console.log(`Generated editorial for: ${problemTitle}`);
         return editorial;
     } catch (error) {
-        console.error("❌ Error generating editorial from Gemini:", error.message);
+        console.error("Error generating editorial from Gemini:", error.message);
         // Fallback or retry logic could be added here
         return null;
     }
@@ -104,5 +104,5 @@ Unfortunately, we couldn't generate an AI editorial for this problem at this tim
 3. Start with a brute force approach, then optimize
 4. Test your solution with sample inputs
 
-Good luck! 🚀`;
+Good luck!`;
 };

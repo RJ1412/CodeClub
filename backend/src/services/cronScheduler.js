@@ -34,7 +34,7 @@ const fetchProblemStatement = async (contestId, index) => {
  */
 export const generateDailyQOTD = async () => {
     try {
-        console.log("🔄 Starting automated QOTD generation...");
+        console.log("Starting automated QOTD generation...");
 
         // Check if a question already exists for today
         const today = new Date();
@@ -45,12 +45,12 @@ export const generateDailyQOTD = async () => {
         });
 
         if (existing) {
-            console.log("ℹ️ Question already exists for today. Skipping.");
+            console.log("Question already exists for today. Skipping.");
             return { success: true, message: "Question already exists for today" };
         }
 
         // Fetch all problems from Codeforces
-        console.log("📡 Fetching problems from Codeforces API...");
+        console.log("Fetching problems from Codeforces API...");
         const cfRes = await axios.get("https://codeforces.com/api/problemset.problems");
         const data = cfRes.json ? await cfRes.json() : cfRes.data;
 
@@ -72,12 +72,12 @@ export const generateDailyQOTD = async () => {
         const chosen = filtered[Math.floor(Math.random() * filtered.length)];
         const link = `https://codeforces.com/contest/${chosen.contestId}/problem/${chosen.index}`;
 
-        console.log(`✅ Selected problem: ${chosen.name} (Rating: ${chosen.rating})`);
+        console.log(`Selected problem: ${chosen.name} (Rating: ${chosen.rating})`);
 
         // Scrape problem statement for editorial generation
         let editorial = null;
         if (SCRAPER_API_KEY) {
-            console.log("📄 Scraping problem statement...");
+            console.log("Scraping problem statement...");
             const html = await fetchProblemStatement(chosen.contestId, chosen.index);
 
             if (html) {
@@ -85,7 +85,7 @@ export const generateDailyQOTD = async () => {
                 const statement = $(".problem-statement").text().trim();
 
                 if (statement) {
-                    console.log("🤖 Generating AI editorial...");
+                    console.log("Generating AI editorial...");
                     editorial = await generateEditorialFromGemini(statement, chosen.name, chosen.rating);
 
                     if (!editorial) {
@@ -94,7 +94,7 @@ export const generateDailyQOTD = async () => {
                 }
             }
         } else {
-            console.warn("⚠️ SCRAPER_API_KEY not set. Skipping editorial generation.");
+            console.warn("SCRAPER_API_KEY not set. Skipping editorial generation.");
             editorial = generateFallbackEditorial(link);
         }
 
@@ -110,10 +110,10 @@ export const generateDailyQOTD = async () => {
             },
         });
 
-        console.log(`✅ QOTD created successfully: ${question.title}`);
+        console.log(`QOTD created successfully: ${question.title}`);
         return { success: true, question };
     } catch (error) {
-        console.error("❌ Error generating daily QOTD:", error.message);
+        console.error("Error generating daily QOTD:", error.message);
         return { success: false, error: error.message };
     }
 };
@@ -124,7 +124,7 @@ export const generateDailyQOTD = async () => {
  */
 export const checkAndGenerateQOTDOnStartup = async () => {
     try {
-        console.log("🔍 Checking if today's question exists...");
+        console.log("Checking if today's question exists...");
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -134,22 +134,22 @@ export const checkAndGenerateQOTDOnStartup = async () => {
         });
 
         if (existing) {
-            console.log(`✅ Question already exists for today: "${existing.title}"`);
+            console.log(`Question already exists for today: "${existing.title}"`);
             return { success: true, exists: true, question: existing };
         }
 
-        console.log("⚠️ No question found for today. Generating now...");
+        console.log("No question found for today. Generating now...");
         const result = await generateDailyQOTD();
 
         if (result.success) {
-            console.log("✅ Successfully generated today's question on startup!");
+            console.log("Successfully generated today's question on startup!");
         } else {
-            console.error("❌ Failed to generate question on startup:", result.error);
+            console.error("Failed to generate question on startup:", result.error);
         }
 
         return result;
     } catch (error) {
-        console.error("❌ Error checking/generating QOTD on startup:", error.message);
+        console.error("Error checking/generating QOTD on startup:", error.message);
         return { success: false, error: error.message };
     }
 };
@@ -160,43 +160,43 @@ export const checkAndGenerateQOTDOnStartup = async () => {
 export const initCronScheduler = async () => {
     // ALWAYS check and generate QOTD on startup (regardless of ENABLE_AUTO_QOTD)
     console.log("\n" + "=".repeat(60));
-    console.log("🚀 Running startup QOTD check...");
+    console.log("Running startup QOTD check...");
     console.log("=".repeat(60) + "\n");
 
     await checkAndGenerateQOTDOnStartup();
 
     console.log("\n" + "=".repeat(60));
-    console.log("✅ Startup QOTD check complete");
+    console.log("Startup QOTD check complete");
     console.log("=".repeat(60) + "\n");
 
     if (!ENABLE_AUTO_QOTD) {
-        console.log("ℹ️ Automated QOTD cron is disabled (ENABLE_AUTO_QOTD=false)");
-        console.log("💡 Tip: Set ENABLE_AUTO_QOTD=true to enable daily automated generation");
+        console.log("Automated QOTD cron is disabled (ENABLE_AUTO_QOTD=false)");
+        console.log("Tip: Set ENABLE_AUTO_QOTD=true to enable daily automated generation");
         return;
     }
 
-    console.log(`⏰ Initializing QOTD cron scheduler with schedule: ${CRON_SCHEDULE}`);
+    console.log(`Initializing QOTD cron scheduler with schedule: ${CRON_SCHEDULE}`);
 
     // Validate cron schedule
     if (!cron.validate(CRON_SCHEDULE)) {
-        console.error("❌ Invalid cron schedule format:", CRON_SCHEDULE);
+        console.error("Invalid cron schedule format:", CRON_SCHEDULE);
         return;
     }
 
     // Schedule the job
     const task = cron.schedule(CRON_SCHEDULE, async () => {
         console.log(`\n${"=".repeat(60)}`);
-        console.log(`🕐 Cron job triggered at ${new Date().toISOString()}`);
+        console.log(`Cron job triggered at ${new Date().toISOString()}`);
         console.log(`${"=".repeat(60)}\n`);
 
         await generateDailyQOTD();
 
         console.log(`\n${"=".repeat(60)}`);
-        console.log(`✅ Cron job completed at ${new Date().toISOString()}`);
+        console.log(`Cron job completed at ${new Date().toISOString()}`);
         console.log(`${"=".repeat(60)}\n`);
     });
 
-    console.log("✅ QOTD cron scheduler initialized successfully");
+    console.log("QOTD cron scheduler initialized successfully");
 
     // Return task for potential cleanup
     return task;
@@ -206,6 +206,6 @@ export const initCronScheduler = async () => {
 export const stopCronScheduler = (task) => {
     if (task) {
         task.stop();
-        console.log("🛑 QOTD cron scheduler stopped");
+        console.log("QOTD cron scheduler stopped");
     }
 };

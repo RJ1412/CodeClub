@@ -9,11 +9,11 @@ import { authMiddleware } from "../middleware/auth.middleware.js";
 
 const discussionRoutes = express.Router();
 
-// 💬 Discussions
+// Discussions
 discussionRoutes.get("/:questionId/comments", authMiddleware, getDiscussions);
 discussionRoutes.post("/comments", authMiddleware, postComment);
 
-// ⭐ Ratings
+// Ratings
 discussionRoutes.post("/rate", authMiddleware, rateQuestion);
 discussionRoutes.get("/:questionId/rating", authMiddleware, getQuestionRating); // Auth optional usually, but handling in controller
 

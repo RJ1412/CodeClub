@@ -131,12 +131,12 @@ export const generateGlobalQOTD = async (req, res) => {
       message: "Question created for today.",
     });
   } catch (error) {
-    console.error("❌ Error generating QOTD:", error?.message);
+    console.error("Error generating QOTD:", error?.message);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
 
-// 🔧 ScraperAPI Helper
+// ScraperAPI Helper
 const fetchProblemStatement = async (contestId, index) => {
   const url = `https://codeforces.com/problemset/problem/${contestId}/${index}`;
   const scraperUrl = `https://api.scraperapi.com?api_key=${SCRAPER_API_KEY}&url=${encodeURIComponent(url)}`;
@@ -145,12 +145,12 @@ const fetchProblemStatement = async (contestId, index) => {
     const { data } = await axios.get(scraperUrl);
     return data;
   } catch (err) {
-    console.error("❌ ScraperAPI failed:", err.message);
+    console.error("ScraperAPI failed:", err.message);
     return "";
   }
 };
 
-// ✅ controllers/qotd.controllers.js
+// controllers/qotd.controllers.js
 
 export const getEditorialIfAllowed = async (req, res) => {
   try {
@@ -164,7 +164,7 @@ export const getEditorialIfAllowed = async (req, res) => {
         .json({ error: "Missing codeforcesHandle or questionTitle." });
     }
 
-    // ✅ Find user with that handle
+    // Find user with that handle
     const user = await db.user.findUnique({
       where: { codeforcesHandle },
     });
@@ -173,7 +173,7 @@ export const getEditorialIfAllowed = async (req, res) => {
       return res.status(404).json({ error: "User not found." });
     }
 
-    // ✅ Find question by title
+    // Find question by title
     const question = await db.question.findFirst({
       where: { title: questionTitle },
     });
@@ -378,8 +378,8 @@ export const UpdatePoints = async (req, res) => {
 
     return res.status(200).json({ status: "ACCEPTED" });
   } catch (err) {
-    console.error("❌ Error in UpdatePoints:", err.message);
-    console.error("❌ Error in UpdatePoints:", err);
+    console.error("Error in UpdatePoints:", err.message);
+    console.error("Error in UpdatePoints:", err);
 
     return res.status(500).json({ message: "Server error" });
   }

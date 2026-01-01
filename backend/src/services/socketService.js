@@ -12,7 +12,7 @@ export const initSocket = (server) => {
     });
 
     io.on("connection", (socket) => {
-        console.log(`🔌 New client connected: ${socket.id}`);
+        console.log(`New client connected: ${socket.id}`);
 
         socket.on("join_question", (questionId) => {
             socket.join(`question_${questionId}`);
@@ -24,7 +24,7 @@ export const initSocket = (server) => {
         });
 
         socket.on("disconnect", () => {
-            console.log(`❌ Client disconnected: ${socket.id}`);
+            console.log(`Client disconnected: ${socket.id}`);
         });
     });
 

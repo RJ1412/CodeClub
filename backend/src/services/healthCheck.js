@@ -65,7 +65,7 @@ export const recordFailure = () => {
         systemMetrics.isHealthy = false;
         systemMetrics.lastFailureTime = Date.now();
         systemMetrics.totalFailures++;
-        console.error("❌ System failure recorded");
+        console.error("System failure recorded");
     }
 };
 
@@ -78,7 +78,7 @@ export const recordRecovery = () => {
         systemMetrics.lastRecoveryTime = Date.now();
         const downtime = systemMetrics.lastRecoveryTime - systemMetrics.lastFailureTime;
         systemMetrics.totalDowntime += downtime;
-        console.log(`✅ System recovered. Downtime: ${downtime}ms`);
+        console.log(`System recovered. Downtime: ${downtime}ms`);
     }
 };
 
@@ -136,5 +136,5 @@ export const resetMetrics = () => {
         totalDowntime: 0,
         isHealthy: true,
     };
-    console.log("🔄 Health metrics reset");
+    console.log("Health metrics reset");
 };
