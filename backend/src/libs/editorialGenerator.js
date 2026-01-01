@@ -23,26 +23,45 @@ export const generateEditorialFromGemini = async (
             return null;
         }
 
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        // Use gemini-2.5-flash as it is available and powerful.
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-        const prompt = `You are an expert competitive programming coach. Generate a comprehensive editorial for the following Codeforces problem.
+        const prompt = `You are an expert competitive programming coach. Create a detailed editorial for the following Codeforces problem.
 
-Problem Title: ${problemTitle}
-Difficulty Rating: ${rating}
+Problem: ${problemTitle} (Rating: ${rating})
 
 Problem Statement:
 ${problemStatement}
 
-Please provide:
-1. **Problem Summary**: Brief overview of what the problem asks
-2. **Approach**: High-level strategy to solve the problem
-3. **Algorithm**: Detailed step-by-step algorithm
-4. **Key Insights**: Important observations or tricks needed
-5. **Time Complexity**: Big-O notation with explanation
-6. **Space Complexity**: Big-O notation with explanation
-7. **Sample Solution Pseudocode**: Clean pseudocode demonstrating the approach
+Required Output Structure (in Markdown):
 
-Format your response in clear markdown with proper headings. Keep it educational and beginner-friendly.`;
+# ${problemTitle} - Editorial
+
+## 1. Problem Summary
+Explain the problem in simple terms. Input/Output requirements.
+
+## 2. Approach
+High-level logic and strategy to solve it. Explain the thought process.
+
+## 3. Algorithm
+Provide a clear, step-by-step algorithm.
+1. Step 1...
+2. Step 2...
+...
+
+## 4. Pseudo-code
+\`\`\`text
+// Write clean, language-agnostic pseudo-code here
+\`\`\`
+
+## 5. Complexity Analysis
+- **Time Complexity**: Explain why.
+- **Space Complexity**: Explain why.
+
+## 6. Key Insights / Tricks
+Any corner cases or specific observations needed.
+
+Do not use placeholders. Generate the actual content based on the problem statement provided.`;
 
         const result = await model.generateContent(prompt);
         const response = await result.response;
@@ -57,6 +76,7 @@ Format your response in clear markdown with proper headings. Keep it educational
         return editorial;
     } catch (error) {
         console.error("❌ Error generating editorial from Gemini:", error.message);
+        // Fallback or retry logic could be added here
         return null;
     }
 };
